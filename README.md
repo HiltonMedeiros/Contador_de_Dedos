@@ -14,5 +14,6 @@ Contagem dos dedos levantados.
 Exibição do resultado na tela.
 
 PRÉ-REQUISITOS:
-pip install opencv-python mediapipe
+pip install -r requirements.txt
+
 
