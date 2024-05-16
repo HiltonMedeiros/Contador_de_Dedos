@@ -36,6 +36,19 @@ class HandDetector():
                 if draw:
                     cv2.circle(img, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
         return lmList
+    
+    def handSide(self):
+        sides = []
+        if self.results.multi_handedness:
+            for hand in self.results.multi_handedness:
+                side = hand.classification[0].label
+                # Invert the side values
+                if side == 'Left':
+                    sides.append('Right')
+                elif side == 'Right':
+                    sides.append('Left')
+        return sides
+    
 def main():
     pTime = 0
     cTime = 0
