@@ -1,10 +1,10 @@
 import cv2
 import time
 import os
-import HandTrackingModule as htm
+import Rastreamento as htm
 
 wCam, hCam = 640, 480
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 cap.set(3, wCam)
 cap.set(4, hCam)
 folderPath = "FingerImages"
@@ -17,7 +17,7 @@ for imPath in myList:
     overlayList.append(image)
 print(len(overlayList))
 pTime = 0
-detector = htm.handDetector(detectionCon=0.75)
+detector = htm.HandDetector(detectionCon=0.75)
 tipIds = [4, 8, 12, 16, 20]
 while True:
     success, img = cap.read()
