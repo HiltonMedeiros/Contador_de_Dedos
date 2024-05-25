@@ -23,11 +23,14 @@ while True:
     success, img = cap.read()
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
+    side = detector.handSide()
     # print(lmList)
     if len(lmList) != 0:
         fingers = []
         # Thumb
-        if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1]:
+        if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1] and side[0]=='Right':
+            fingers.append(1)
+        elif lmList[tipIds[0]][1] < lmList[tipIds[0] - 1][1] and side[0]=='Left':
             fingers.append(1)
         else:
             fingers.append(0)
@@ -39,7 +42,7 @@ while True:
                 fingers.append(0)
         # print(fingers)
         totalFingers = fingers.count(1)
-        print(totalFingers)
+        print(totalFingers,side)
         h, w, c = overlayList[totalFingers - 1].shape
         img[0:h, 0:w] = overlayList[totalFingers - 1]
         cv2.rectangle(img, (20, 225), (170, 425), (0, 255, 0), cv2.FILLED)
@@ -51,4 +54,8 @@ while True:
     cv2.putText(img, f'FPS: {int(fps)}', (400, 70), cv2.FONT_HERSHEY_PLAIN,
                 3, (255, 0, 0), 3)
     cv2.imshow("Image", img)
-    cv2.waitKey(1)
+    key = cv2.waitKey(1)
+    if key == 27:
+        break
+
+cv2.destroyAllWindows()
